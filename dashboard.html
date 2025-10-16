@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | MedTrack</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>📊 MedTrack Dashboard</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="login.html">Logout</a>
+    </nav>
+  </header>
+
+  <section class="dashboard">
+    <h2>Today's Medicines</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>Paracetamol</h3>
+        <p>500mg - 9:00 AM</p>
+        <button onclick="markTaken(this)">Mark Taken</button>
+      </div>
+      <div class="card">
+        <h3>Amoxicillin</h3>
+        <p>250mg - 2:00 PM</p>
+        <button onclick="markTaken(this)">Mark Taken</button>
+      </div>
+      <div class="card">
+        <h3>Vitamin D</h3>
+        <p>One tablet - 8:00 PM</p>
+        <button onclick="markTaken(this)">Mark Taken</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Stay consistent. Stay healthy. 💚</p>
+  </footer>
+
+  <script>
+    function markTaken(btn) {
+      btn.innerText = "✅ Taken";
+      btn.style.backgroundColor = "#4caf50";
+    }
+  </script>
+</body>
+</html>
