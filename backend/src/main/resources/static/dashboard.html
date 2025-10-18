@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedTrack Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="auth.js" defer></script>
+  <script src="nav.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>📊 MedTrack Dashboard</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="#" id="logout-link">Logout</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container dashboard">
+    <h2>Today's Medicines</h2>
+    <div class="card-panel" style="margin-bottom:16px">
+      <form id="addMedForm" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input type="text" id="med-name" placeholder="Medicine name" style="flex:2;padding:10px;border-radius:8px;border:1px solid #e6eef8">
+        <input type="text" id="med-dosage" placeholder="Dosage (e.g. 500mg)" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e6eef8">
+        <input type="time" id="med-time" style="padding:10px;border-radius:8px;border:1px solid #e6eef8">
+        <input type="date" id="med-expiry" title="Expiry date (optional)" style="padding:10px;border-radius:8px;border:1px solid #e6eef8">
+        <button type="submit" class="btn">Add</button>
+      </form>
+    </div>
+
+    <div id="med-list" class="cards">
+      <!-- medicines will render here -->
+    </div>
+  </main>
+
+  <footer>
+    <div class="container"><p>Stay consistent. Stay healthy. 💚</p></div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = window.auth && window.auth.currentUser && window.auth.currentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      // verify token with backend before loading medicines
+      const verify = await window.auth.apiFetch('/api/user/me');
+      if (!verify.ok) {
+        // don't redirect immediately — show friendly message and give retry/logout
+        const main = document.querySelector('main.container');
+        main.innerHTML = `
+          <div class="card-panel">
+            <h3>Connection issue</h3>
+            <p>We couldn't verify your session with the server. This may be a temporary problem.</p>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button id="retry-btn" class="btn">Retry</button>
+              <button id="logout-btn" class="btn">Logout</button>
+            </div>
+            <p style="margin-top:8px;color:#666;font-size:0.9rem">If retry keeps failing, try refreshing the page or check the server.</p>
+          </div>
+        `;
+        document.getElementById('retry-btn').addEventListener('click', () => location.reload());
+        document.getElementById('logout-btn').addEventListener('click', () => { window.auth.logout(); window.location.href = 'login.html'; });
+        return;
+      }
+      await loadMeds();
+      const res = await window.auth.apiFetch('/api/user/me');
+      if (!res.ok) {
+        window.auth.logout();
+        window.location.href = 'login.html';
+        return;
+      }
+      const profile = res.body || {};
+      const h1 = document.querySelector('header h1');
+      if (h1) h1.textContent = `📊 ${profile.name || profile.email || 'MedTrack Dashboard'}`;
+
+      const logout = document.getElementById('logout-link');
+      if (logout) logout.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.auth.logout();
+        window.location.href = 'login.html';
+      });
+      // add form handler
+      const addForm = document.getElementById('addMedForm');
+      addForm.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const name = document.getElementById('med-name').value.trim();
+        const dosage = document.getElementById('med-dosage').value.trim();
+        const time = document.getElementById('med-time').value;
+        const expiry = document.getElementById('med-expiry').value || null;
+        if (!name) { window.showToast('Please enter medicine name', 'error'); return; }
+        const r = await window.auth.apiFetch('/api/medicines', { method: 'POST', body: JSON.stringify({ name, dosage, time, expiryDate: expiry }) });
+        if (r.ok) {
+          document.getElementById('med-name').value = '';
+          document.getElementById('med-dosage').value = '';
+          document.getElementById('med-time').value = '';
+          document.getElementById('med-expiry').value = '';
+          window.showToast('Medicine added', 'success');
+          await loadMeds();
+        } else {
+          window.showToast('Failed to add medicine', 'error');
+        }
+      });
+    });
+
+    function markTaken(btn) {
+      if (!btn.classList.contains('taken')) {
+        btn.classList.add('taken');
+        btn.innerText = "✅ Taken";
+        btn.style.backgroundColor = "#4caf50";
+      }
+    }
+
+    async function loadMeds() {
+      const list = document.getElementById('med-list');
+      list.innerHTML = '';
+      const res = await window.auth.apiFetch('/api/medicines');
+      if (!res.ok) {
+        if (res.status === 401) {
+          window.auth.logout();
+          window.showToast('Not authenticated — please login', 'error');
+          window.location.href = 'login.html';
+          return;
+        }
+        window.showToast('Failed to load medicines', 'error');
+        return;
+      }
+      const items = res.body || [];
+      // store globally for reminder checks
+      window._meds = items;
+      items.forEach(i => {
+        const el = document.createElement('div');
+        el.className = 'card card-panel';
+        const expired = i.expiryDate ? (new Date(i.expiryDate) < new Date(new Date().toISOString().slice(0,10))) : false;
+        el.innerHTML = `
+          <h3>${escapeHtml(i.name)} ${expired ? '<span class="badge expired">Expired</span>' : ''}</h3>
+          <p>${escapeHtml(i.dosage || '')} ${i.time ? ' - ' + escapeHtml(i.time) : ''} ${i.expiryDate ? ' · Expires: ' + escapeHtml(i.expiryDate) : ''}</p>
+          <div style="margin-top:10px">
+            <button data-id="${i.id}" class="${i.taken ? 'btn taken' : 'btn'}" ${expired ? 'disabled' : ''}>${i.taken ? '✅ Taken' : 'Mark Taken'}</button>
+          </div>
+        `;
+        const btn = el.querySelector('button');
+        btn.addEventListener('click', async () => {
+          const id = btn.getAttribute('data-id');
+          const r = await window.auth.apiFetch('/api/medicines/' + id + '/toggle', { method: 'PUT' });
+          if (r.ok) {
+            window.showToast('Updated', 'success');
+            await loadMeds();
+          } else {
+            window.showToast('Failed to update', 'error');
+          }
+        });
+        list.appendChild(el);
+      });
+      // run reminder check once after load
+      checkReminders();
+    }
+
+    // reminder helper: notify when a medicine time matches current time (HH:MM)
+    window._notifiedAt = window._notifiedAt || {};
+    function checkReminders() {
+      if (!window._meds || !Array.isArray(window._meds)) return;
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      const current = `${hh}:${mm}`;
+      window._meds.forEach(m => {
+        if (!m) return;
+        const expired = m.expiryDate ? (new Date(m.expiryDate) < new Date(new Date().toISOString().slice(0,10))) : false;
+        if (m.time && !m.taken && !expired) {
+          // notify only once per minute per medicine
+          const last = window._notifiedAt[m.id];
+          if (m.time === current && last !== current) {
+            window.showToast(`Reminder: time to take ${m.name} (${m.dosage || ''})`, 'success', 7000);
+            window._notifiedAt[m.id] = current;
+          }
+        }
+      });
+    }
+    // poll every 60 seconds
+    setInterval(checkReminders, 60 * 1000);
+
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>\"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  </script>
+</body>
+</html>

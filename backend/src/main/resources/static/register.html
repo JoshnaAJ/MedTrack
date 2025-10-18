@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | MedTrack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>💊 MedTrack</h1>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+        <a href="dashboard.html">Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="auth-box">
+      <h2>Create account</h2>
+      <div id="register-message" class="message"></div>
+      <input type="text" placeholder="Full name" id="name">
+      <input type="email" placeholder="Email" id="email">
+      <input type="password" placeholder="Password" id="password">
+      <input type="password" placeholder="Confirm password" id="password2">
+      <button id="register-btn">Register</button>
+      <p style="text-align:center;margin-top:12px">Already have an account? <a href="login.html">Login</a></p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container"><p>© 2025 MedTrack</p></div>
+  </footer>
+  <script src="auth.js" defer></script>
+  <script src="nav.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('register-btn');
+      const msg = document.getElementById('register-message');
+      btn.addEventListener('click', async () => {
+        msg.textContent = '';
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        if (!name || !email || !password) {
+          msg.textContent = 'Please fill out all fields.';
+          msg.style.color = 'red';
+          return;
+        }
+        if (password !== password2) {
+          msg.textContent = 'Passwords do not match.';
+          msg.style.color = 'red';
+          return;
+        }
+        const ok = await window.auth.register({ name, email, password });
+        if (ok) {
+          msg.textContent = 'Registration successful. Redirecting to login...';
+          msg.style.color = 'green';
+          setTimeout(() => window.location.href = 'login.html', 900);
+        } else {
+          msg.textContent = 'An account with that email already exists.';
+          msg.style.color = 'red';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
