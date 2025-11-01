@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedTrack Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+  <div class="navbar">
+    <h1 class="logo-small">MedTrack</h1>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h2 id="welcomeMsg">Welcome to MedTrack</h2>
+      <p>Manage and monitor your medicines effectively.</p>
+
+      <div class="buttons">
+        <a class="btn primary" href="addMedicine.html">Add Medicine</a>
+        <a class="btn secondary" href="viewMedicines.html">View Medicines</a>
+        <a class="btn secondary" href="#" onclick="showProfile()">Profile</a>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

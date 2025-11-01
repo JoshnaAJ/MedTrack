@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Medicines - MedTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body class="viewmed-body">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+  <div class="viewmed-container">
+    <h1 class="logo">MedTrack</h1>
+    <h3 class="subtitle">Your Medicines</h3>
+
+    <table id="medicineTable" class="medicine-table">
+      <thead>
+        <tr>
+          <th>Medicine Name</th>
+          <th>Expiry Date</th>
+          <th>Time</th>
+          <th>When</th>
+          <th>Days</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="medicineBody"></tbody>
+    </table>
+
+    <p id="emptyMsg" class="info-msg">No medicines added yet 💊</p>
+  </div>
+</body>
+</html>

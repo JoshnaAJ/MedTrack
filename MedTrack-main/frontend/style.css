@@ -1,0 +1,317 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #4a1942;
+}
+
+/* Welcome Page */
+.welcome-body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #ffeaf1, #ffd9e8, #ffeef5);
+}
+
+.welcome-container {
+  text-align: center;
+  width: 80%;
+  max-width: 600px;
+}
+
+.logo-large {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #d63384;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 8px rgba(255,192,203,0.5);
+}
+
+.quote {
+  font-size: 1.3rem;
+  color: #b3005e;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.description {
+  color: #7a2e4d;
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Login/Register Pages */
+.login-body {
+  background: linear-gradient(135deg, #ffeaf1, #ffd9e8, #ffeef5);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+  background: rgba(255,255,255,0.9);
+  padding: 50px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 350px;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #d63384;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #b3005e;
+  margin-bottom: 25px;
+}
+
+.login-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+  color: #b3005e;
+  font-weight: 500;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffb6c1;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  outline: none;
+  background: #fff8fa;
+}
+
+.login-form input:focus {
+  border-color: #d63384;
+  box-shadow: 0 0 5px rgba(214, 51, 132, 0.3);
+}
+
+.btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn.primary {
+  background: #d63384;
+  color: white;
+}
+.btn.primary:hover { background: #c21873; }
+
+.btn.secondary {
+  background: white;
+  border: 2px solid #d63384;
+  color: #d63384;
+}
+.btn.secondary:hover { background: #ffe6f1; }
+
+.full { width: 100%; }
+
+.success { color: green; margin-top: 10px; }
+.error { color: red; margin-top: 10px; }
+.link { color: #d63384; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+/* Dashboard */
+.navbar {
+  background: rgba(255,255,255,0.8);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo-small { color: #d63384; font-size: 2rem; }
+
+.logout-btn {
+  background: #d63384;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.logout-btn:hover { background: #c21873; }
+
+.hero {
+  height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  background: linear-gradient(135deg, #ffeaf1, #ffd9e8);
+}
+.hero-content h2 { font-size: 2.3rem; color: #b3005e; margin-bottom: 10px; }
+.hero-content p { color: #7a2e4d; margin-bottom: 30px; }
+
+/* Add Medicine Page */
+.addmed-body {
+  height: 100vh;
+  background: linear-gradient(rgba(255, 234, 241, 0.8), rgba(255, 217, 232, 0.8)),
+              url('https://img.freepik.com/free-vector/healthcare-medical-concept-background_1017-26830.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addmed-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 45px;
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 380px;
+  backdrop-filter: blur(10px);
+}
+
+.addmed-form label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  color: #b3005e;
+  font-weight: 500;
+}
+
+.addmed-form input,
+.addmed-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ffb6c1;
+  border-radius: 6px;
+  margin-bottom: 18px;
+  outline: none;
+  background: #fff8fa;
+}
+
+.addmed-form input:focus,
+.addmed-form select:focus {
+  border-color: #d63384;
+  box-shadow: 0 0 6px rgba(214, 51, 132, 0.3);
+}
+
+.addmed-container .logo {
+  color: #d63384;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.addmed-container .subtitle {
+  color: #b3005e;
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+/* Back Button */
+.back-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #d63384;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.back-btn:hover {
+  background: #c21873;
+  transform: scale(1.05);
+}
+
+
+
+/* View Medicines Table */
+.viewmed-body {
+  height: 100vh;
+  background: linear-gradient(rgba(255, 234, 241, 0.85), rgba(255, 217, 232, 0.85)),
+              url('https://img.freepik.com/free-vector/medical-background-with-flat-design_23-2147877264.jpg') center/cover no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.viewmed-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 45px;
+  border-radius: 20px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  width: 85%;
+  max-width: 900px;
+  backdrop-filter: blur(10px);
+  overflow-y: auto;
+}
+
+.medicine-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(214, 51, 132, 0.1);
+}
+
+.medicine-table th {
+  background-color: #d63384;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.medicine-table td {
+  padding: 10px;
+  border-bottom: 1px solid #ffd6e0;
+  color: #7a2e4d;
+  text-align: center;
+  background-color: #fff8fa;
+}
+
+.medicine-table tr:hover td {
+  background-color: #ffeaf1;
+}
+
+.delete-btn {
+  background: #d63384;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.delete-btn:hover {
+  background: #c21873;
+}
+
+.info-msg {
+  color: #7a2e4d;
+  font-style: italic;
+  margin-top: 20px;
+}

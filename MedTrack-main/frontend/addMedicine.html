@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Medicine - MedTrack</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js" defer></script>
+</head>
+<body class="addmed-body">
+  <button class="back-btn" onclick="goBack()">⬅ Back</button>
+
+  <div class="addmed-container">
+    <h1 class="logo">MedTrack</h1>
+    <h3 class="subtitle">Add Medicine Details</h3>
+
+    <form id="addMedForm" class="addmed-form">
+      <label for="medName">Medicine Name</label>
+      <input type="text" id="medName" placeholder="Enter medicine name" required />
+
+      <label for="medDate">Expiry Date</label>
+      <input type="date" id="medDate" required />
+
+      <label for="medTime">Set Time to Take Medicine</label>
+      <input type="time" id="medTime" required />
+
+      <label for="medFood">When to Take</label>
+      <select id="medFood" required>
+        <option value="">Select</option>
+        <option value="Before Food">Before Food</option>
+        <option value="After Food">After Food</option>
+      </select>
+
+      <label for="medDays">Number of Days to Take</label>
+      <input type="number" id="medDays" placeholder="Enter number of days" min="1" required />
+
+      <button type="submit" class="btn primary full">Save Medicine</button>
+    </form>
+
+    <p id="saveMsg" class="success"></p>
+  </div>
+</body>
+</html>
